@@ -17,6 +17,10 @@ class UsersController < ApplicationController
     @user.destroy!
   end
 
+  def create
+    User.create!(user_params)
+  end
+
 
   private
     def set_user
