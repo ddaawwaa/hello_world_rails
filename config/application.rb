@@ -23,7 +23,6 @@ module HelloWorldRails
         helper_specs: false,
         controller_specs: false,
         request_specs: true
-
     end
     config.api_only = true
     config.middleware.use ActionDispatch::Flash

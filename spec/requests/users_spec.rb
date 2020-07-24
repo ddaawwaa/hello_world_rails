@@ -3,12 +3,13 @@ require 'rails_helper'
 RSpec.describe "Users", type: :request do
   describe "GET /users" do
     subject { get(users_path) }
-    bofore do
+    before do
       create_list(:user, 3)
     end
 
     it "ユーザーの一覧が取得できる" do
       subject
+
       res = JSON.parse(response.body)
       expect(res.length).to eq 3
       expect(res[0].keys).to eq ["account", "name", "email"]
@@ -42,11 +43,11 @@ RSpec.describe "Users", type: :request do
   end
 
   describe "POST /users" do
-    subject { post(user_path, params: params) }
-    let(:params){ attributes_fo(:user) }
+    subject { post(users_path, params: params) }
+    let(:params){ {user: attributes_for(:user) }}
 
     it "ユーザーのレコードが作成できる" do
-      expect { subject }.to change { User.count }.by(1)
+      expect{ subject }.to change{ User.count }.by(1)
       expect(response).to have_http_status(204)
     end
   end
