@@ -53,8 +53,16 @@ RSpec.describe "Users", type: :request do
   end
 
   describe "PATCH /users/:id" do
-    it "ユーザーのレコードを更新できる" do
+    subject{ patch(user_path(user.id), params: params)}
+    let(:params){{user: {name: Faker::Name.name, created_at: Time.current}}}
+    let(:user){create(:user)}
 
+    it "ユーザーのレコードを更新できる" do
+      expect{subject}.to change{User.find(user.id).name}.from(user.name).to(params[:user][:name]) &
+      not_change {User.find(user.id).account} &
+      not_change {User.find(user.id).email} &
+      not_change {User.find(user.id).created_at}
+      expect(response).to have_http_status(204)
     end
   end
 
